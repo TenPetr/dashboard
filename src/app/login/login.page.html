@@ -6,9 +6,9 @@
           <h2 id="title">Login</h2>
         </ion-card-header>
         <ion-card-content>
-          <ion-input class="forms first" type="text" placeholder="Username"></ion-input>
-          <ion-input class="forms" type="password" placeholder="Password"></ion-input>
-          <ion-button color="secondary" fill="clear" id="login">
+          <ion-input [(ngModel)]="username" class="forms first" type="text" placeholder="Username"></ion-input>
+          <ion-input [(ngModel)]="password" class="forms" type="password" placeholder="Password"></ion-input>
+          <ion-button color="secondary" fill="clear" id="login" (click)="submitForm()">
             <ion-icon name="log-in"></ion-icon>
             <span id="loginText">Login</span>
           </ion-button>
@@ -19,7 +19,7 @@
   <ion-row>
     <ion-col>
       <div class="ion-text-center registerText">
-        Don´t have an account? <a id="color" routerLink="/register" routerDirection="forward"><b>Register!</b></a>
+        Don´t have an account? <a id="color" routerLink="/register" routerDirection="forward"><b>Sign up now!</b></a>
       </div>
     </ion-col>
   </ion-row>

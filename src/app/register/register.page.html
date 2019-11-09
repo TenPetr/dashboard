@@ -9,7 +9,7 @@
           <ion-input [(ngModel)]="email" class="forms first" type="email" placeholder="E-mail"></ion-input>
           <ion-input [(ngModel)]="username" class="forms" type="text" placeholder="Username"></ion-input>
           <ion-input [(ngModel)]="password" class="forms" type="password" placeholder="Password"></ion-input>
-          <ion-button color="secondary" fill="clear" id="register" (click)="register()">
+          <ion-button color="secondary" fill="clear" id="register" (click)="submitForm()">
             <ion-icon name="log-in"></ion-icon>
             <span id="registerText">Register</span>
           </ion-button>
@@ -20,7 +20,7 @@
   <ion-row>
     <ion-col>
       <div class="ion-text-center registerText">
-        Already have an account? <a id="color" routerLink="/login" routerDirection="root"><b>Login!</b></a>
+        Already have an account? <a id="color" routerLink="/login" routerDirection="root"><b>Sign in!</b></a>
       </div>
     </ion-col>
   </ion-row>
