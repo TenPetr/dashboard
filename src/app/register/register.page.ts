@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
+import { RegisterService } from "../services/register.service";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  selector: "app-register",
+  templateUrl: "./register.page.html",
+  styleUrls: ["./register.page.scss"]
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
+  email: string;
+  username: string;
+  password: string;
+  re_password: string;
 
-  constructor() { }
+  constructor(private registerService: RegisterService) {}
 
-  ngOnInit() {
-  }
-
+  register() {}
 }

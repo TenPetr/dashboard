@@ -6,11 +6,10 @@
           <h2 id="title">Register</h2>
         </ion-card-header>
         <ion-card-content>
-          <ion-input class="forms first" type="email" placeholder="E-mail"></ion-input>
-          <ion-input class="forms" type="text" placeholder="Username"></ion-input>
-          <ion-input class="forms" type="password" placeholder="Password"></ion-input>
-          <ion-input class="forms" type="password" placeholder="Repeat Password"></ion-input>
-          <ion-button color="secondary" fill="clear" id="register">
+          <ion-input [(ngModel)]="email" class="forms first" type="email" placeholder="E-mail"></ion-input>
+          <ion-input [(ngModel)]="username" class="forms" type="text" placeholder="Username"></ion-input>
+          <ion-input [(ngModel)]="password" class="forms" type="password" placeholder="Password"></ion-input>
+          <ion-button color="secondary" fill="clear" id="register" (click)="register()">
             <ion-icon name="log-in"></ion-icon>
             <span id="registerText">Register</span>
           </ion-button>
