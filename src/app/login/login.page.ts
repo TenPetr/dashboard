@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
-import { ValidateService } from "../services/validate.service";
+import { AuthService } from "../services/auth.service";
+import { Router } from "@angular/router";
+import { LoadingController } from "@ionic/angular";
 
 @Component({
   selector: "app-login",
@@ -12,25 +14,35 @@ export class LoginPage {
   password: string;
 
   constructor(
+    public loadingController: LoadingController,
     public alertController: AlertController,
-    public validateService: ValidateService
+    public authService: AuthService,
+    public router: Router
   ) {}
 
-  async submitForm() {
-    if (!this.validateService.validateName(this.username))
-      return await this.presentAlert("Error", "Enter a valid username!");
+  async loginUser() {
+    const loading = await this.loadingController.create({
+      message: "Logging in...",
+      spinner: "bubbles"
+    });
+    await loading.present();
 
-    if (!this.validateService.validatePassword(this.password))
-      return await this.presentAlert("Error", "Enter a valid password!");
+    const user = {
+      username: this.username,
+      password: this.password
+    };
 
-    this.loginUser();
+    this.authService.login(user).subscribe(async response => {
+      if (response === true) {
+        this.username = "";
+        this.password = "";
+        this.router.navigate(["/home"]);
+      }
+      await loading.dismiss();
+    });
   }
 
-  loginUser() {
-    console.log(this.username, this.password);
-  }
-
-  async presentAlert(title: string, text: string) {
+  async presentAlert(title: string, text: any) {
     const alert = await this.alertController.create({
       header: title,
       message: text,

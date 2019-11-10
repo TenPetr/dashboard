@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
-import { RegisterService } from "../services/register.service";
+import { AuthService } from "../services/auth.service";
 import { AlertController } from "@ionic/angular";
-import { ValidateService } from "../services/validate.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-register",
@@ -14,28 +14,22 @@ export class RegisterPage {
   password: string;
 
   constructor(
-    private registerService: RegisterService,
-    public alertController: AlertController,
-    public validateService: ValidateService
+    public router: Router,
+    private authService: AuthService,
+    public alertController: AlertController
   ) {}
 
-  async submitForm() {
-    if (!this.validateService.validateEmail(this.email))
-      return await this.presentAlert("Error", "Enter a valid e-mail!");
+  registerUser() {
+    const user = {
+      username: this.username,
+      email: this.email,
+      password: this.password
+    };
 
-    if (!this.validateService.validateName(this.username))
-      return await this.presentAlert("Error", "Enter a valid username!");
-
-    if (!this.validateService.validatePassword(this.password))
-      return await this.presentAlert(
-        "Error",
-        "Enter a password longer than 8 characters!"
-      );
-
-    this.registerUser();
+    this.authService.register(user).subscribe(response => {
+      if (response) this.router.navigate(["/home"]);
+    });
   }
-
-  registerUser() {}
 
   async presentAlert(title: string, text: string) {
     const alert = await this.alertController.create({
