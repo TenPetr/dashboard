@@ -35,9 +35,7 @@ export class RegisterPage {
     this.registerUser();
   }
 
-  registerUser() {
-    console.log(this.username, this.email, this.password);
-  }
+  registerUser() {}
 
   async presentAlert(title: string, text: string) {
     const alert = await this.alertController.create({
