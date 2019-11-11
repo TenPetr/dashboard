@@ -1,11 +1,12 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "./helpers/auth.guard";
 
 const routes: Routes = [
-  { path: "", redirectTo: "login", pathMatch: "full" },
   {
-    path: "home",
-    loadChildren: "./home/home.module#HomePageModule"
+    path: "",
+    redirectTo: "/login",
+    pathMatch: "full"
   },
   {
     path: "login",
@@ -15,7 +16,24 @@ const routes: Routes = [
     path: "register",
     loadChildren: "./register/register.module#RegisterPageModule"
   },
-  { path: "**", redirectTo: "" }
+  {
+    path: "home",
+    loadChildren: "./home/home.module#HomePageModule",
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "not-found",
+    loadChildren: "./not-found/not-found.module#NotFoundPageModule"
+  },
+  {
+    path: "unauthorized",
+    loadChildren: "./unauthorized/unauthorized.module#UnauthorizedPageModule"
+  },
+  {
+    path: "**",
+    redirectTo: "/not-found",
+    pathMatch: "full"
+  }
 ];
 
 @NgModule({

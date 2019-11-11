@@ -21,7 +21,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.router.navigateByUrl("login");
+      // this.router.navigateByUrl("login");
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });

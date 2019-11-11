@@ -5,15 +5,15 @@
         <ion-card-header color="secondary">
           <h2 id="title">Register</h2>
         </ion-card-header>
-        <ion-card-content>
-          <ion-input [(ngModel)]="email" class="forms first" type="email" placeholder="E-mail"></ion-input>
-          <ion-input [(ngModel)]="username" class="forms" type="text" placeholder="Username"></ion-input>
-          <ion-input [(ngModel)]="password" class="forms" type="password" placeholder="Password"></ion-input>
-          <ion-button color="secondary" fill="clear" id="register" (click)="registerUser()">
-            <ion-icon name="log-in"></ion-icon>
-            <span id="registerText">Register</span>
-          </ion-button>
-        </ion-card-content>
+          <ion-card-content>
+            <ion-input [(ngModel)]="user.email" class="forms first" type="email" placeholder="E-mail"></ion-input>
+            <ion-input [(ngModel)]="user.username" class="forms" type="text" placeholder="Username"></ion-input>
+            <ion-input [(ngModel)]="user.password" class="forms" type="password" placeholder="Password"></ion-input>
+            <ion-button color="secondary" fill="clear" id="register" (click)="registerUser()">
+              <ion-icon name="log-in"></ion-icon>
+              <span id="registerText">Register</span>
+            </ion-button>
+          </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>

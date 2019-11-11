@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
-import { AlertController } from "@ionic/angular";
+import { AlertController, LoadingController } from "@ionic/angular";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
-import { LoadingController } from "@ionic/angular";
+import { User } from "../helpers/user.model";
 
 @Component({
   selector: "app-login",
@@ -10,8 +10,14 @@ import { LoadingController } from "@ionic/angular";
   styleUrls: ["./login.page.scss"]
 })
 export class LoginPage {
+  user: User = {
+    username: undefined,
+    password: undefined
+  };
+
+  token: string;
+  refreshToken: string;
   username: string;
-  password: string;
 
   constructor(
     public loadingController: LoadingController,
@@ -22,27 +28,32 @@ export class LoginPage {
 
   async loginUser() {
     const loading = await this.loadingController.create({
-      message: "Logging in...",
+      message: "Logging ...",
       spinner: "bubbles"
     });
     await loading.present();
 
-    const user = {
-      username: this.username,
-      password: this.password
-    };
-
-    this.authService.login(user).subscribe(async response => {
-      if (response === true) {
-        this.username = "";
-        this.password = "";
-        this.router.navigate(["/home"]);
+    this.authService.loginUser(this.user).subscribe(
+      response => {
+        this.setLocalStorage(response);
+        this.resetForm();
+        this.router.navigate(["home"]);
+      },
+      err => {
+        this.presentAlert("Error", err.error);
       }
-      await loading.dismiss();
-    });
+    );
+
+    await loading.dismiss();
   }
 
-  async presentAlert(title: string, text: any) {
+  setLocalStorage(response) {
+    localStorage.setItem("x-auth-token", response["token"]);
+    localStorage.setItem("x-refresh-token", response["refreshToken"]);
+    localStorage.setItem("username", response["username"]);
+  }
+
+  async presentAlert(title: string, text: string) {
     const alert = await this.alertController.create({
       header: title,
       message: text,
@@ -50,5 +61,14 @@ export class LoginPage {
     });
 
     await alert.present();
+  }
+
+  resetForm(): void {
+    this.user.username = "";
+    this.user.password = "";
+  }
+
+  ngOnDestroy(): void {
+    this.resetForm();
   }
 }

@@ -6,8 +6,8 @@
           <h2 id="title">Login</h2>
         </ion-card-header>
         <ion-card-content>
-          <ion-input [(ngModel)]="username" class="forms first" type="text" placeholder="Username"></ion-input>
-          <ion-input [(ngModel)]="password" class="forms" type="password" placeholder="Password"></ion-input>
+          <ion-input [(ngModel)]="user.username" class="forms first" type="text" placeholder="Username"></ion-input>
+          <ion-input [(ngModel)]="user.password" class="forms" type="password" placeholder="Password"></ion-input>
           <ion-button color="secondary" fill="clear" id="login" (click)="loginUser()">
             <ion-icon name="log-in"></ion-icon>
             <span id="loginText">Login</span>

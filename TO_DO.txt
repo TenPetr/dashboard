@@ -1,2 +1,5 @@
 Form group login and register
 Repeat password
+
+Email registration confirm
+Input validation on client 
