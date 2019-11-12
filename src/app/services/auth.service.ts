@@ -43,12 +43,18 @@ export class AuthService {
 
   getMe() {
     const url = "http://localhost:3000/me";
-    const token = localStorage.getItem("x-auth-token");
 
     return this.http.get(url);
   }
 
   getToken() {
     return localStorage.getItem("x-auth-token");
+  }
+
+  logoutUser() {
+    localStorage.removeItem("x-auth-token");
+    localStorage.removeItem("x-refresh-token");
+    localStorage.removeItem("username");
+    this.router.navigate(["/login"]);
   }
 }

@@ -8,21 +8,15 @@ import { Router } from "@angular/router";
   styleUrls: ["home.page.scss"]
 })
 export class HomePage {
-  constructor(public authService: AuthService, public router: Router) {
-    this.authService.getMe().subscribe(
-      response => {
-        console.log(response);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+  constructor(public authService: AuthService, public router: Router) {}
+
+  test() {
+    this.authService.getMe().subscribe(res => {
+      console.log(res);
+    });
   }
 
   logoutUser() {
-    localStorage.removeItem("x-auth-token");
-    localStorage.removeItem("x-refresh-token");
-    localStorage.removeItem("username");
-    this.router.navigate(["/login"]);
+    this.authService.logoutUser();
   }
 }
