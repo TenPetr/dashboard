@@ -3,6 +3,7 @@ import { AlertController, LoadingController } from "@ionic/angular";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { User } from "../helpers/user.model";
+import { catchError } from "rxjs/operators";
 
 @Component({
   selector: "app-login",
@@ -11,13 +12,9 @@ import { User } from "../helpers/user.model";
 })
 export class LoginPage {
   user: User = {
-    username: undefined,
-    password: undefined
+    username: "",
+    password: ""
   };
-
-  token: string;
-  refreshToken: string;
-  username: string;
 
   constructor(
     public loadingController: LoadingController,
@@ -31,23 +28,28 @@ export class LoginPage {
       message: "Logging ...",
       spinner: "bubbles"
     });
+
     await loading.present();
 
     this.authService.loginUser(this.user).subscribe(
-      response => {
-        this.setLocalStorage(response);
-        this.resetForm();
-        this.router.navigate(["home"]);
+      async response => {
+        this.doUserLogin(response);
+        await loading.dismiss();
       },
-      err => {
+      async err => {
         this.presentAlert("Error", err.error);
+        await loading.dismiss();
       }
     );
-
-    await loading.dismiss();
   }
 
-  setLocalStorage(response) {
+  doUserLogin(response) {
+    this.setItems(response);
+    this.resetForm();
+    this.router.navigate(["home"]);
+  }
+
+  setItems(response) {
     localStorage.setItem("x-auth-token", response["token"]);
     localStorage.setItem("x-refresh-token", response["refreshToken"]);
     localStorage.setItem("username", response["username"]);

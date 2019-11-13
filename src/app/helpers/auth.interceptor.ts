@@ -22,7 +22,6 @@ export class AuthInterceptor implements HttpInterceptor {
           error => {
             if (error.status === 401) {
               return this.authService.logoutUser();
-
               // REFRESH TOKEN?
             }
           }

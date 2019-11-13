@@ -11,14 +11,10 @@ import { User } from "../helpers/user.model";
 })
 export class RegisterPage {
   user: User = {
-    username: undefined,
-    email: undefined,
-    password: undefined
+    username: "",
+    email: "",
+    password: ""
   };
-
-  token: string;
-  refreshToken: string;
-  username: string;
 
   constructor(
     public router: Router,
@@ -32,23 +28,28 @@ export class RegisterPage {
       message: "Registering ...",
       spinner: "bubbles"
     });
+
     await loading.present();
 
     this.authService.registerUser(this.user).subscribe(
-      response => {
-        this.setLocalStorage(response);
-        this.resetForm();
-        this.router.navigate(["home"]);
+      async response => {
+        this.doUserLogin(response);
+        await loading.dismiss();
       },
-      err => {
+      async err => {
         this.presentAlert("Error", err.error);
+        await loading.dismiss();
       }
     );
-
-    await loading.dismiss();
   }
 
-  setLocalStorage(response) {
+  doUserLogin(response) {
+    this.setItems(response);
+    this.resetForm();
+    this.router.navigate(["home"]);
+  }
+
+  setItems(response) {
     localStorage.setItem("x-auth-token", response["token"]);
     localStorage.setItem("x-refresh-token", response["refreshToken"]);
     localStorage.setItem("username", response["username"]);

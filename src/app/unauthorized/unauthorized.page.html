@@ -1,9 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>unauthorized</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ion-row>
+    <ion-col size-lg="4" offset-lg="4">  
+      <h1 id="ops"><b>401</b></h1>
+      <h3 id="notfound">UNAUTHORIZED</h3>
+      <p id="login">
+        You are not authorized to this page if you are not logged in. 
+        You can <a id="logreg" [routerLink]="['/login']"><b>sign in</b></a> here, 
+        if you do not have an account, <a id="logreg" [routerLink]="['/register']"><b>sign up</b></a>!
+      </p>
+    </ion-col>
+  </ion-row>
 </ion-content>
