@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
+import { catchError } from "rxjs/operators";
+import { throwError } from "rxjs";
 
 @Component({
   selector: "app-home",
@@ -17,6 +19,13 @@ export class HomePage {
   }
 
   logoutUser() {
-    this.authService.logoutUser();
+    this.authService.logout().subscribe(
+      res => {
+        this.authService.doLogoutUser();
+      },
+      err => {
+        return throwError(err);
+      }
+    );
   }
 }

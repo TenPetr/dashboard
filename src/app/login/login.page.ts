@@ -3,7 +3,6 @@ import { AlertController, LoadingController } from "@ionic/angular";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { User } from "../helpers/user.model";
-import { catchError } from "rxjs/operators";
 
 @Component({
   selector: "app-login",
@@ -33,7 +32,8 @@ export class LoginPage {
 
     this.authService.loginUser(this.user).subscribe(
       async response => {
-        this.doUserLogin(response);
+        this.authService.doUserLogin(response);
+        this.resetForm();
         await loading.dismiss();
       },
       async err => {
@@ -41,18 +41,6 @@ export class LoginPage {
         await loading.dismiss();
       }
     );
-  }
-
-  doUserLogin(response) {
-    this.setItems(response);
-    this.resetForm();
-    this.router.navigate(["home"]);
-  }
-
-  setItems(response) {
-    localStorage.setItem("x-auth-token", response["token"]);
-    localStorage.setItem("x-refresh-token", response["refreshToken"]);
-    localStorage.setItem("username", response["username"]);
   }
 
   async presentAlert(title: string, text: string) {

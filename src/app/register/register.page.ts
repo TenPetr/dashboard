@@ -33,7 +33,8 @@ export class RegisterPage {
 
     this.authService.registerUser(this.user).subscribe(
       async response => {
-        this.doUserLogin(response);
+        this.authService.doUserLogin(response);
+        this.resetForm();
         await loading.dismiss();
       },
       async err => {
@@ -41,18 +42,6 @@ export class RegisterPage {
         await loading.dismiss();
       }
     );
-  }
-
-  doUserLogin(response) {
-    this.setItems(response);
-    this.resetForm();
-    this.router.navigate(["home"]);
-  }
-
-  setItems(response) {
-    localStorage.setItem("x-auth-token", response["token"]);
-    localStorage.setItem("x-refresh-token", response["refreshToken"]);
-    localStorage.setItem("username", response["username"]);
   }
 
   async presentAlert(title: string, text: string) {
