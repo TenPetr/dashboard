@@ -31,9 +31,8 @@ export class LoginPage {
     await loading.present();
 
     this.authService.loginUser(this.user).subscribe(
-      async response => {
-        this.authService.doUserLogin(response);
-        this.resetForm();
+      async res => {
+        this.doUserLogin(res);
         await loading.dismiss();
       },
       async err => {
@@ -41,6 +40,12 @@ export class LoginPage {
         await loading.dismiss();
       }
     );
+  }
+
+  doUserLogin(res) {
+    localStorage.setItem("username", res["username"]);
+    this.router.navigate(["home"]);
+    this.resetForm();
   }
 
   async presentAlert(title: string, text: string) {
