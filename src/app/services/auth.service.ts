@@ -14,6 +14,12 @@ export class AuthService {
   });
   private readonly options = { headers: this.header, withCredentials: true };
 
+  private readonly header2 = new HttpHeaders({
+    "Content-Type": "application/json",
+    "No-Auth": "True"
+  });
+  private readonly options2 = { headers: this.header2, withCredentials: true };
+
   constructor(
     public router: Router,
     private http: HttpClient,
@@ -29,7 +35,7 @@ export class AuthService {
       password: user.password
     };
 
-    return this.http.post(url, body, this.options);
+    return this.http.post(url, body, this.options2);
   }
 
   loginUser(user: User) {
@@ -41,7 +47,7 @@ export class AuthService {
     };
 
     // When you want to send a cookies with requests, you have to put "withCredentials: true" into request option
-    return this.http.post(url, body, this.options);
+    return this.http.post(url, body, this.options2);
   }
 
   getMe() {
@@ -51,7 +57,7 @@ export class AuthService {
 
   refreshToken() {
     const url = `${this.baseUrl}/auth/token`;
-    return this.http.post(url, this.options);
+    return this.http.get(url, this.options);
   }
 
   logout() {
@@ -61,11 +67,11 @@ export class AuthService {
       username: localStorage.getItem("username")
     };
 
-    return this.http.post(url, body, this.options);
+    return this.http.post(url, body, this.options2);
   }
 
   isLogged() {
     const url = `${this.baseUrl}/auth/islogged`;
-    return this.http.get(url, this.options).toPromise();
+    return this.http.get(url, this.options2).toPromise();
   }
 }
