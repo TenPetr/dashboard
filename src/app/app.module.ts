@@ -26,6 +26,7 @@ import { TokenInterceptor } from "./helpers/token.interceptor";
     AuthService,
     AuthGuard,
     SplashScreen,
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

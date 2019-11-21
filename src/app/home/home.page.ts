@@ -36,8 +36,8 @@ export class HomePage {
         await loading.dismiss();
       },
       async err => {
-        await loading.dismiss();
         this.router.navigate(["login"]);
+        await loading.dismiss();
         return throwError(err);
       }
     );

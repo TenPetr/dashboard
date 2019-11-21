@@ -44,6 +44,7 @@ export class RegisterPage {
   }
 
   doUserLogin(res) {
+    this.authService.logReg = true;
     localStorage.setItem("username", res["username"]);
     this.router.navigate(["home"]);
     this.resetForm();

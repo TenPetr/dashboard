@@ -1,9 +1,10 @@
+**** --FEATURES-- ****
 Form group login and register
 Repeat password
-
 Email registration confirm
 Input validation on client 
 
-KDYŽ DÁM /HOME a nejsem přihlášený a potom kliknu na login, tak se přesměruje na unauthorized -> fix
-
+**** --FIXES-- ****
+Login check - if user is logged or not (better solution - when server is down, cookies wont clear)
+Right after login/register - disable login check (auth guard)
 

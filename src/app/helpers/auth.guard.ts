@@ -8,20 +8,24 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Promise<boolean> {
     return new Promise(resolve => {
-      this.authService
-        .isLogged()
-        .then(res => {
-          if (!res) {
+      if (!this.authService.logReg) {
+        this.authService
+          .isLogged()
+          .then(res => {
+            if (!res) {
+              this.router.navigate(["unauthorized"]);
+              resolve(false);
+            } else {
+              resolve(true);
+            }
+          })
+          .catch(() => {
             this.router.navigate(["unauthorized"]);
             resolve(false);
-          } else {
-            resolve(true);
-          }
-        })
-        .catch(err => {
-          this.router.navigate(["unauthorized"]);
-          resolve(false);
-        });
+          });
+      } else {
+        resolve(true);
+      }
     });
   }
 }

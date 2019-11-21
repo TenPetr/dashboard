@@ -3,22 +3,30 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { AlertController } from "@ionic/angular";
 import { User } from "../helpers/user.model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   private readonly baseUrl = "http://localhost:3000";
-  private readonly header = new HttpHeaders({
-    "Content-Type": "application/json"
-  });
-  private readonly options = { headers: this.header, withCredentials: true };
+  private readonly username = localStorage.getItem("username");
+  private readonly contentType = { "Content-Type": "application/json" };
+  private readonly noAuth = { "No-Auth": "True" };
 
-  private readonly header2 = new HttpHeaders({
-    "Content-Type": "application/json",
-    "No-Auth": "True"
+  private readonly header = new HttpHeaders(this.contentType);
+  private readonly noAuthHeader = new HttpHeaders({
+    ...this.contentType,
+    ...this.noAuth
   });
-  private readonly options2 = { headers: this.header2, withCredentials: true };
+
+  private readonly options = { headers: this.header, withCredentials: true };
+  private readonly noAuthOptions = {
+    headers: this.noAuthHeader,
+    withCredentials: true
+  };
+
+  public logReg: boolean = false;
 
   constructor(
     public router: Router,
@@ -26,52 +34,46 @@ export class AuthService {
     public alertController: AlertController
   ) {}
 
-  registerUser(user: User) {
+  registerUser(u: User): Observable<any> {
     const url = `${this.baseUrl}/register`;
+    const body = { username: u.username, email: u.email, password: u.password };
 
-    const body = {
-      username: user.username,
-      email: user.email,
-      password: user.password
-    };
-
-    return this.http.post(url, body, this.options2);
+    return this.http.post(url, body, this.noAuthOptions);
   }
 
-  loginUser(user: User) {
+  loginUser(u: User): Observable<any> {
     const url = `${this.baseUrl}/auth`;
+    const body = { username: u.username, password: u.password };
 
-    const body = {
-      username: user.username,
-      password: user.password
-    };
-
-    // When you want to send a cookies with requests, you have to put "withCredentials: true" into request option
-    return this.http.post(url, body, this.options2);
+    // When you want to send a cookies with requests,
+    // you have to put "withCredentials: true" into request option
+    return this.http.post(url, body, this.noAuthOptions);
   }
 
-  getMe() {
+  getMe(): Observable<any> {
     const url = `${this.baseUrl}/me`;
+
     return this.http.get(url, this.options);
   }
 
-  refreshToken() {
-    const url = `${this.baseUrl}/auth/token`;
+  refreshToken(): Observable<any> {
+    const url = `${this.baseUrl}/token`;
+
     return this.http.get(url, this.options);
   }
 
-  logout() {
+  logout(): Observable<any> {
     const url = `${this.baseUrl}/auth/logout`;
+    const body = { username: this.username };
 
-    const body = {
-      username: localStorage.getItem("username")
-    };
+    localStorage.removeItem("username");
 
-    return this.http.post(url, body, this.options2);
+    return this.http.post(url, body, this.noAuthOptions);
   }
 
-  isLogged() {
+  isLogged(): Promise<any> {
     const url = `${this.baseUrl}/auth/islogged`;
-    return this.http.get(url, this.options2).toPromise();
+
+    return this.http.get(url, this.noAuthOptions).toPromise();
   }
 }
