@@ -11,6 +11,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./helpers/auth.guard";
 import { TokenInterceptor } from "./helpers/token.interceptor";
+import { DataService } from "./services/data.service";
+import { Geolocation } from "@ionic-native/geolocation/ngx";
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,9 +26,10 @@ import { TokenInterceptor } from "./helpers/token.interceptor";
   providers: [
     StatusBar,
     AuthService,
+    DataService,
     AuthGuard,
     SplashScreen,
-
+    Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

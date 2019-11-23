@@ -33,7 +33,7 @@ export class RegisterPage {
 
     this.authService.registerUser(this.user).subscribe(
       async res => {
-        this.doUserLogin(res);
+        this.doUserRegister(res);
         await loading.dismiss();
       },
       async err => {
@@ -43,7 +43,7 @@ export class RegisterPage {
     );
   }
 
-  doUserLogin(res) {
+  doUserRegister(res) {
     this.authService.logReg = true;
     localStorage.setItem("username", res["username"]);
     this.router.navigate(["home"]);

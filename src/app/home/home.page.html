@@ -1,16 +1,45 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
+<ion-header id="header">
+  <ion-button (click)="test()" fill="clear" id="user">
+    <ion-icon slot="icon-only" name="person" color="dark"></ion-icon>
+  </ion-button>
+  <ion-button (click)="logoutUser()" fill="clear" id="logout">
+    <ion-icon slot="icon-only" name="log-out" color="dark"></ion-icon>
+  </ion-button>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    <ion-button (click)="logoutUser()">Logout</ion-button>
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-    <ion-button (click)="test()">test</ion-button>  
-  </div>
+  <ion-row id="row"> 
+    <ion-col size-lg="4" size-xs="12" size-sm="6">
+      <ion-card id="weather">
+        <ion-card-header id="weatherCardHeader">
+          <h4>{{ city }}</h4>
+        </ion-card-header>
+        <ion-card-content id="cardContent">
+          <ion-row>
+            <ion-img id="weatherIcon" src="{{ icon }}"></ion-img>
+            <span><p id="temp"><b>{{ temperature }}</b> °C, {{ conditions }}</p></span>
+            <ion-button (click)="onClick()"></ion-button>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <ion-col size-lg="4" size-xs="12" size-sm="6">
+      <ion-card id="calendar">
+        <ion-card-header>
+          <h3>Calendar</h3>
+        </ion-card-header>
+        <ion-card-content>
+          
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-content>
+
+
+<!-- <div class="ion-padding">
+  <ion-button (click)="logoutUser()">Logout</ion-button>
+  The world is your oyster.
+  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+  <ion-button (click)="test()">test</ion-button>  
+</div> -->
