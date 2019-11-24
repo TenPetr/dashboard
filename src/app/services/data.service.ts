@@ -24,6 +24,12 @@ export class DataService {
     return this.http.get(url, { params: params, ...this.options });
   }
 
+  getCalendar(): Observable<any> {
+    const url = `${this.baseUrl}/calendar`;
+
+    return this.http.get(url, this.options);
+  }
+
   getMe(): Observable<any> {
     const url = `${this.baseUrl}/me`;
 

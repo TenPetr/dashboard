@@ -3,6 +3,7 @@ Form group login and register
 Repeat password
 Email registration confirm
 Input validation on client 
+Weather - background changing image with weahter
 
 **** --FIXES-- ****
 Login check - if user is logged or not (better solution - when server is down, cookies wont clear)

@@ -2,9 +2,11 @@ import { Component } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { LoadingController } from "@ionic/angular";
+import { LoadingController, NavController } from "@ionic/angular";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DataService } from "../services/data.service";
+import { DateTimeService } from "../services/datetime.service";
+import { ProfilePage } from "../profile/profile.page";
 
 @Component({
   selector: "app-home",
@@ -14,21 +16,34 @@ import { DataService } from "../services/data.service";
 export class HomePage {
   icon: string;
   temperature: number;
-  conditions: string;
+  min_temp: number;
+  max_temp: number;
+  desc: string;
+  humi: number;
   city: string;
   lat: any;
   lon: any;
+  day: string;
+  month: string;
+  year: number;
+  names: Array<string> = [];
 
   constructor(
+    public router: Router,
+    public navCtrl: NavController,
     public dataService: DataService,
     public authService: AuthService,
-    public router: Router,
-    public loadingController: LoadingController,
-    private geolocation: Geolocation
+    public dateTimeService: DateTimeService,
+    private geolocation: Geolocation,
+    public loadingController: LoadingController
   ) {}
 
   ngOnInit() {
     this.getLocation();
+    this.day = this.dateTimeService.getDate();
+    this.month = this.dateTimeService.getMonth();
+    this.getCalendar();
+    this.getWeather();
   }
 
   getLocation() {
@@ -43,15 +58,29 @@ export class HomePage {
       });
   }
 
-  async onClick() {
+  showProfile() {
+    this.router.navigate(["/profile"]);
+  }
+
+  async getWeather() {
     this.dataService.getWeather(this.lat, this.lon).subscribe(res => {
       const weather: any = res;
       console.log(weather);
 
       this.icon = `../../assets/weatherIcons/${weather.icon}.png`;
       this.temperature = weather.temp;
-      this.conditions = weather.desc;
+      this.desc = weather.desc;
       this.city = weather.city;
+      this.humi = weather.humi;
+      this.min_temp = weather.min_temp;
+      this.max_temp = weather.max_temp;
+    });
+  }
+
+  async getCalendar() {
+    this.dataService.getCalendar().subscribe(res => {
+      const calendar: any = res;
+      this.names = calendar;
     });
   }
 
@@ -65,14 +94,16 @@ export class HomePage {
 
     this.authService.logout().subscribe(
       async res => {
-        this.router.navigate(["login"]);
+        this.router.navigate(["login"], { replaceUrl: true });
         await loading.dismiss();
       },
       async err => {
-        this.router.navigate(["login"]);
+        this.router.navigate(["login"], { replaceUrl: true });
         await loading.dismiss();
         return throwError(err);
       }
     );
   }
+
+  ngOnDestroy(): void {}
 }

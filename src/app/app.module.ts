@@ -13,6 +13,7 @@ import { AuthGuard } from "./helpers/auth.guard";
 import { TokenInterceptor } from "./helpers/token.interceptor";
 import { DataService } from "./services/data.service";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { DateTimeService } from "./services/datetime.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { Geolocation } from "@ionic-native/geolocation/ngx";
     StatusBar,
     AuthService,
     DataService,
+    DateTimeService,
     AuthGuard,
     SplashScreen,
     Geolocation,

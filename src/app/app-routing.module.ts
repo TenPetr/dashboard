@@ -22,6 +22,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: "profile",
+    loadChildren: "./profile/profile.module#ProfilePageModule",
+    canActivate: [AuthGuard]
+  },
+  {
     path: "not-found",
     loadChildren: "./not-found/not-found.module#NotFoundPageModule"
   },
