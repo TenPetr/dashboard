@@ -6,7 +6,6 @@ import { LoadingController, NavController } from "@ionic/angular";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DataService } from "../services/data.service";
 import { DateTimeService } from "../services/datetime.service";
-import { ProfilePage } from "../profile/profile.page";
 
 @Component({
   selector: "app-home",
@@ -15,6 +14,7 @@ import { ProfilePage } from "../profile/profile.page";
 })
 export class HomePage {
   icon: string;
+  iconWallpaper: string;
   temperature: number;
   min_temp: number;
   max_temp: number;
@@ -68,6 +68,7 @@ export class HomePage {
       console.log(weather);
 
       this.icon = `../../assets/weatherIcons/${weather.icon}.png`;
+      this.iconWallpaper = weather.icon;
       this.temperature = weather.temp;
       this.desc = weather.desc;
       this.city = weather.city;
