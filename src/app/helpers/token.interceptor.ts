@@ -6,7 +6,7 @@ import {
   HttpErrorResponse
 } from "@angular/common/http";
 import { AuthService } from "../services/auth.service";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, observable, of } from "rxjs";
 import { catchError, filter, take, switchMap, mergeMap } from "rxjs/operators";
 import { Router } from "@angular/router";
 
@@ -27,7 +27,8 @@ export class TokenInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(request, next);
         } else {
-          return this.handleError();
+          this.isRefreshing = false;
+          return of(undefined);
         }
       })
     );
@@ -49,7 +50,8 @@ export class TokenInterceptor implements HttpInterceptor {
           }
         }),
         catchError(err => {
-          return this.handleError();
+          this.isRefreshing = false;
+          return of(undefined);
         })
       );
     } else {

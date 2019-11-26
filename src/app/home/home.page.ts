@@ -2,7 +2,11 @@ import { Component } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { throwError } from "rxjs";
-import { LoadingController, NavController } from "@ionic/angular";
+import {
+  LoadingController,
+  NavController,
+  AlertController
+} from "@ionic/angular";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DataService } from "../services/data.service";
 import { DateTimeService } from "../services/datetime.service";
@@ -35,26 +39,44 @@ export class HomePage {
     public authService: AuthService,
     public dateTimeService: DateTimeService,
     private geolocation: Geolocation,
+    public alertController: AlertController,
     public loadingController: LoadingController
   ) {}
 
   ngOnInit() {
-    this.getLocation();
+    this.getWeather();
+    this.getCalendar();
     this.day = this.dateTimeService.getDate();
     this.month = this.dateTimeService.getMonth();
-    this.getCalendar();
-    this.getWeather();
   }
 
-  getLocation() {
+  async getWeather() {
+    const loading = await this.loadingController.create({
+      message: "Loading data ...",
+      spinner: "bubbles"
+    });
+
+    await loading.present();
+
     this.geolocation
       .getCurrentPosition()
       .then(resp => {
         this.lat = resp.coords.latitude.toFixed(4);
         this.lon = resp.coords.longitude.toFixed(4);
+
+        this.dataService.getWeather(this.lat, this.lon).subscribe(
+          async res => {
+            this.setWeather(res);
+            await loading.dismiss();
+          },
+          async () => {
+            this.presentAlert("Error", "Network error");
+            await loading.dismiss();
+          }
+        );
       })
-      .catch(error => {
-        console.log(error);
+      .catch(async () => {
+        await loading.dismiss();
       });
   }
 
@@ -62,28 +84,36 @@ export class HomePage {
     this.router.navigate(["/profile"]);
   }
 
-  async getWeather() {
-    this.dataService.getWeather(this.lat, this.lon).subscribe(res => {
-      const weather: any = res;
-      console.log(weather);
+  setWeather(res) {
+    const weather: any = res;
 
-      this.icon = `../../assets/weatherIcons/${weather.icon}.png`;
-      this.iconWallpaper = weather.icon;
-      this.temperature = weather.temp;
-      this.desc = weather.desc;
-      this.city = weather.city;
-      this.humi = weather.humi;
-      this.min_temp = weather.min_temp;
-      this.max_temp = weather.max_temp;
-    });
+    this.icon = `../../assets/weatherIcons/${weather.icon}.png`;
+    this.iconWallpaper = weather.icon;
+    this.temperature = weather.temp;
+    this.desc = weather.desc;
+    this.city = weather.city;
+    this.humi = weather.humi;
+    this.min_temp = weather.min_temp;
+    this.max_temp = weather.max_temp;
   }
 
-  async getCalendar() {
+  getCalendar() {
     this.dataService.getCalendar().subscribe(res => {
       const calendar: any = res;
       this.names = calendar;
     });
   }
+
+  async presentAlert(title: string, text: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: text,
+      buttons: ["OK"]
+    });
+
+    await alert.present();
+  }
+  v;
 
   async logoutUser() {
     const loading = await this.loadingController.create({

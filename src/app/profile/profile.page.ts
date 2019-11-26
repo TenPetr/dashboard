@@ -1,6 +1,10 @@
 import { Component } from "@angular/core";
 import { DataService } from "../services/data.service";
-import { NavController } from "@ionic/angular";
+import {
+  NavController,
+  LoadingController,
+  AlertController
+} from "@ionic/angular";
 import { Router } from "@angular/router";
 
 @Component({
@@ -9,9 +13,15 @@ import { Router } from "@angular/router";
   styleUrls: ["./profile.page.scss"]
 })
 export class ProfilePage {
+  email: string;
   username: string;
+  oldPassword: string;
+  newPassword: string;
+  correctPassword: boolean = true;
 
   constructor(
+    public alertController: AlertController,
+    public loadingController: LoadingController,
     public dataService: DataService,
     public navCtrl: NavController,
     public router: Router
@@ -21,10 +31,62 @@ export class ProfilePage {
     this.getMe();
   }
 
-  getMe() {
-    this.dataService.getMe().subscribe(res => {
-      this.username = res.username;
+  async getMe() {
+    const loading = await this.loadingController.create({
+      message: "Loading data ...",
+      spinner: "bubbles"
     });
+
+    await loading.present();
+
+    this.dataService.getMe().subscribe(
+      async res => {
+        this.username = res.username;
+        this.email = res.email;
+
+        await loading.dismiss();
+      },
+      async () => {
+        this.presentAlert("Error", "Network error");
+        await loading.dismiss();
+      }
+    );
+  }
+
+  async setNewPassword() {
+    const loading = await this.loadingController.create({
+      message: "Loading data ...",
+      spinner: "bubbles"
+    });
+
+    await loading.present();
+
+    if (!this.oldPassword || !this.newPassword) {
+      this.presentAlert("Error", "Please fill both fields");
+      return await loading.dismiss();
+    }
+
+    this.dataService
+      .setNewPassword(this.oldPassword, this.newPassword)
+      .subscribe(
+        async res => {
+          console.log(res);
+        },
+        async () => {},
+        async () => {
+          await loading.dismiss();
+        }
+      );
+  }
+
+  async presentAlert(title: string, text: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: text,
+      buttons: ["OK"]
+    });
+
+    await alert.present();
   }
 
   navigateBack() {

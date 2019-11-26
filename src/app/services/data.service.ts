@@ -35,4 +35,11 @@ export class DataService {
 
     return this.http.get(url, this.options);
   }
+
+  setNewPassword(oldPassword: string, newPassword: string): Observable<any> {
+    const url = `${this.baseUrl}/change`;
+    const body = { oldPassword, newPassword };
+
+    return this.http.post(url, body, this.options);
+  }
 }
