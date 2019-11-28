@@ -5,7 +5,7 @@ Email registration confirm
 Input validation on client 
 
 **** --FIXES-- ****
-PŘEDĚLAT VŠECHNY API CALLY (/HOME, /PROFILE... )
+code REFACTORE
 
 
 

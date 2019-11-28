@@ -10,11 +10,13 @@ import {
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DataService } from "../services/data.service";
 import { DateTimeService } from "../services/datetime.service";
+import { fade } from "../animations/fade";
 
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"]
+  styleUrls: ["home.page.scss"],
+  animations: [fade]
 })
 export class HomePage {
   icon: string;
