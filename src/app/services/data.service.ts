@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -37,10 +36,10 @@ export class DataService {
     return this.http.get(url, this.options).toPromise();
   }
 
-  setNewPassword(oldPassword: string, newPassword: string): Observable<any> {
+  setNewPassword(oldPassword: string, newPassword: string): Promise<any> {
     const url = `${this.baseUrl}/change`;
     const body = { oldPassword, newPassword };
 
-    return this.http.post(url, body, this.options);
+    return this.http.post(url, body, this.options).toPromise();
   }
 }

@@ -31,6 +31,7 @@ export class HomePage {
   month: string;
   year: number;
   names: Array<any> = [];
+  weather: boolean = false;
 
   constructor(
     public router: Router,
@@ -77,10 +78,11 @@ export class HomePage {
       .getWeather(this.lat, this.lon)
       .then(res => {
         this.setWeather(res);
+        this.weather = true;
         loading.dismiss();
       })
       .catch(() => {
-        this.presentAlert("Error", "Network error");
+        this.presentAlert("Error", "Network error, couldn't load weather");
         loading.dismiss();
       });
   }
@@ -106,11 +108,12 @@ export class HomePage {
     this.dataService
       .getCalendar()
       .then(res => {
-        const calendar: any = res;
+        if (!res) throw new Error();
 
+        const calendar: any = res;
         this.names = calendar;
       })
-      .catch(() => {
+      .catch(err => {
         this.presentAlert("Error", "Failed to load holiday");
       });
   }

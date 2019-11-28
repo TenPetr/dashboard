@@ -68,8 +68,17 @@ export class ProfilePage {
 
     this.dataService
       .setNewPassword(this.oldPassword, this.newPassword)
-      .subscribe(res => {
-        console.log(res);
+      .then(async res => {
+        if (!res) throw new Error();
+
+        this.presentAlert("Info", res);
+        this.newPassword = "";
+        this.oldPassword = "";
+        await loading.dismiss();
+      })
+      .catch(async err => {
+        this.presentAlert("Error", "Network error");
+        await loading.dismiss();
       });
   }
 
