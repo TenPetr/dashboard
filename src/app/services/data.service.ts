@@ -30,10 +30,10 @@ export class DataService {
     return this.http.get(url, this.options);
   }
 
-  getMe(): Observable<any> {
+  getMe(): Promise<any> {
     const url = `${this.baseUrl}/me`;
 
-    return this.http.get(url, this.options);
+    return this.http.get(url, this.options).toPromise();
   }
 
   setNewPassword(oldPassword: string, newPassword: string): Observable<any> {

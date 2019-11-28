@@ -1,21 +1,23 @@
-<div id="header">
-  <ion-row>
-    <ion-button (click)="navigateBack()" fill="clear" id="home">
-      <ion-icon slot="icon-only" name="arrow-round-back" id="backIcon"></ion-icon>
-    </ion-button>
-  </ion-row>
-  <ion-row id="avatarWrapper">
-    <ion-img id="avatar" src="../../assets/avatar.png"></ion-img>
-  </ion-row>
-  <ion-row id="username">
-    <h4 id="usernameHeading">{{ username }}</h4>
-  </ion-row>
-</div>
+<ion-header id="header">
+  <ion-toolbar color="secondary">
+    <ion-row>
+      <ion-button (click)="navigateBack()" fill="clear" id="home">
+        <ion-icon slot="icon-only" name="home" id="backIcon"></ion-icon>
+      </ion-button>
+    </ion-row>
+    <ion-row id="avatarWrapper">
+      <ion-img id="avatar" src="../../assets/avatar.png"></ion-img>
+    </ion-row>
+    <ion-row id="username">
+      <h4 id="usernameHeading">{{ username }}</h4>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <ion-row>
     <ion-col size-lg="4" offset-lg="4">  
-      <ion-card>
+      <ion-card id="card">
         <ion-card-header>
           <h4 id="heading">Change password</h4>
         </ion-card-header>

@@ -81,7 +81,7 @@ export class HomePage {
   }
 
   showProfile() {
-    this.router.navigate(["/profile"]);
+    this.router.navigate(["/profile"], { replaceUrl: false });
   }
 
   setWeather(res) {

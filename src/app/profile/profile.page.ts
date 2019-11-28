@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
 })
 export class ProfilePage {
   email: string;
-  username: string;
+  username: string = "-";
   oldPassword: string;
   newPassword: string;
   correctPassword: boolean = true;
@@ -39,18 +39,18 @@ export class ProfilePage {
 
     await loading.present();
 
-    this.dataService.getMe().subscribe(
-      async res => {
+    this.dataService
+      .getMe()
+      .then(async res => {
         this.username = res.username;
         this.email = res.email;
 
         await loading.dismiss();
-      },
-      async () => {
+      })
+      .catch(async () => {
         this.presentAlert("Error", "Network error");
         await loading.dismiss();
-      }
-    );
+      });
   }
 
   async setNewPassword() {
@@ -68,15 +68,9 @@ export class ProfilePage {
 
     this.dataService
       .setNewPassword(this.oldPassword, this.newPassword)
-      .subscribe(
-        async res => {
-          console.log(res);
-        },
-        async () => {},
-        async () => {
-          await loading.dismiss();
-        }
-      );
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 
   async presentAlert(title: string, text: string) {

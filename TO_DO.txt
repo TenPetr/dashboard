@@ -6,9 +6,7 @@ Input validation on client
 Weather - background changing image with weahter
 
 **** --FIXES-- ****
-Load resources + loading
-Unauthorized page - resolve
-Errors and token interceptor
+PŘEDĚLAT VŠECHNY API CALLY (/HOME, /PROFILE... )
 
 
 

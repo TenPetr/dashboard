@@ -1,32 +1,18 @@
-<div id="header">
-  <ion-button (click)="showProfile()" fill="clear" id="user">
-    <ion-icon slot="icon-only" name="person" color="dark"></ion-icon>
-  </ion-button>
-  <ion-button (click)="logoutUser()" fill="clear" id="logout">
-    <ion-icon slot="icon-only" name="log-out" color="dark"></ion-icon>
-  </ion-button>
-</div>
+<ion-header id="header">
+  <ion-toolbar color="secondary">
+    <ion-button (click)="showProfile()" fill="clear" id="user">
+      <ion-icon slot="icon-only" name="person" id="topIcons"></ion-icon>
+    </ion-button>
+    <ion-button (click)="logoutUser()" fill="clear" id="logout">
+      <ion-icon slot="icon-only" name="log-out" id="topIcons"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <ion-row id="row"> 
     <ion-col size-lg="5" size-xs="12" size-sm="12">
-      <ion-card id="calendar" color="dark">
-        <ion-card-content>
-          <ion-row>
-            <ion-col size="8">
-              <p id="day">{{ day }}<span id="month">{{ month }}</span></p>
-            </ion-col>
-            <ion-col size="4" id="names">    
-              <p *ngFor="let n of names" id="name">
-                <ion-icon class="icons" name="calendar"></ion-icon>&nbsp;&nbsp;{{ n.name }}
-              </p>  
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-    <ion-col size-lg="5" size-xs="12" size-sm="12">
-      <ion-card class="weather" id="back_03d" color="dark" *ngIf="this.lon != undefined">
+      <ion-card class="weather" *ngIf="this.lon != undefined">
         <ion-card-content id="cardContent">
           <ion-row>
             <ion-col size="7">

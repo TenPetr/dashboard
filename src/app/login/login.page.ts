@@ -32,6 +32,7 @@ export class LoginPage {
 
     this.authService.loginUser(this.user).subscribe(
       async res => {
+        console.log(res);
         this.doUserLogin(res);
         await loading.dismiss();
       },
