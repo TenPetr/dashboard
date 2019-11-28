@@ -10,8 +10,8 @@
   <ion-row class="row">
     <p id="date"><span id="day">{{ day }}</span><span id="month">{{ month }}</span></p>
   </ion-row>
-  <ion-row class="row">
-    <p id="holName" *ngFor="let n of names">
+  <ion-row class="row" *ngFor="let n of names">
+    <p id="holName">
       <ion-icon class="calendarIcons" name="calendar"></ion-icon>
       <span>{{ n.name }}</span>
     </p>

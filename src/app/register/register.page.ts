@@ -31,16 +31,16 @@ export class RegisterPage {
 
     await loading.present();
 
-    this.authService.registerUser(this.user).subscribe(
-      async res => {
+    this.authService
+      .registerUser(this.user)
+      .then(async res => {
         this.doUserRegister(res);
         await loading.dismiss();
-      },
-      async err => {
+      })
+      .catch(async err => {
         this.presentAlert("Error", err.error);
         await loading.dismiss();
-      }
-    );
+      });
   }
 
   doUserRegister(res) {

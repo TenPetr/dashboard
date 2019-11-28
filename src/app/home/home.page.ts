@@ -30,7 +30,7 @@ export class HomePage {
   day: string;
   month: string;
   year: number;
-  names: Array<string> = [];
+  names: Array<any> = [];
 
   constructor(
     public router: Router,
@@ -44,10 +44,25 @@ export class HomePage {
   ) {}
 
   ngOnInit() {
-    this.getWeather();
-    this.getCalendar();
     this.day = this.dateTimeService.getDate();
     this.month = this.dateTimeService.getMonth();
+
+    this.getCalendar();
+    this.getLocation();
+  }
+
+  getLocation() {
+    this.geolocation
+      .getCurrentPosition()
+      .then(resp => {
+        this.lat = resp.coords.latitude.toFixed(4);
+        this.lon = resp.coords.longitude.toFixed(4);
+
+        this.getWeather();
+      })
+      .catch(err => {
+        this.presentAlert("Error", "To view the weather, enable the location.");
+      });
   }
 
   async getWeather() {
@@ -58,25 +73,15 @@ export class HomePage {
 
     await loading.present();
 
-    this.geolocation
-      .getCurrentPosition()
-      .then(resp => {
-        this.lat = resp.coords.latitude.toFixed(4);
-        this.lon = resp.coords.longitude.toFixed(4);
-
-        this.dataService.getWeather(this.lat, this.lon).subscribe(
-          async res => {
-            this.setWeather(res);
-            await loading.dismiss();
-          },
-          async () => {
-            this.presentAlert("Error", "Network error");
-            await loading.dismiss();
-          }
-        );
+    this.dataService
+      .getWeather(this.lat, this.lon)
+      .then(res => {
+        this.setWeather(res);
+        loading.dismiss();
       })
-      .catch(async () => {
-        await loading.dismiss();
+      .catch(() => {
+        this.presentAlert("Error", "Network error");
+        loading.dismiss();
       });
   }
 
@@ -98,11 +103,16 @@ export class HomePage {
   }
 
   getCalendar() {
-    this.dataService.getCalendar().subscribe(res => {
-      const calendar: any = res;
+    this.dataService
+      .getCalendar()
+      .then(res => {
+        const calendar: any = res;
 
-      this.names = calendar;
-    });
+        this.names = calendar;
+      })
+      .catch(() => {
+        this.presentAlert("Error", "Failed to load holiday");
+      });
   }
 
   async presentAlert(title: string, text: string) {

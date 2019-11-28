@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -17,17 +18,17 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  getWeather(lat: any, lon: any): Observable<any> {
+  getWeather(lat: any, lon: any): Promise<any> {
     const url = `${this.baseUrl}/weather`;
     const params = new HttpParams().set("lat", lat).set("lon", lon);
 
-    return this.http.get(url, { params: params, ...this.options });
+    return this.http.get(url, { params: params, ...this.options }).toPromise();
   }
 
-  getCalendar(): Observable<any> {
+  getCalendar(): Promise<any> {
     const url = `${this.baseUrl}/calendar`;
 
-    return this.http.get(url, this.options);
+    return this.http.get(url, this.options).toPromise();
   }
 
   getMe(): Promise<any> {

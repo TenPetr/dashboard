@@ -13,17 +13,21 @@ export class AuthGuard implements CanActivate {
           .isLogged()
           .then(res => {
             if (!res) {
+              this.authService.logReg = false;
               this.router.navigate(["unauthorized"]);
               resolve(false);
             } else {
+              this.authService.logReg = false;
               resolve(true);
             }
           })
           .catch(() => {
+            this.authService.logReg = false;
             this.router.navigate(["unauthorized"]);
             resolve(false);
           });
       } else {
+        this.authService.logReg = false;
         resolve(true);
       }
     });

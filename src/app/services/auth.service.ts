@@ -27,20 +27,20 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  registerUser(u: User): Observable<any> {
+  registerUser(u: User): Promise<any> {
     const url = `${this.baseUrl}/register`;
     const body = { username: u.username, email: u.email, password: u.password };
 
-    return this.http.post(url, body, this.noAuthOptions);
+    return this.http.post(url, body, this.noAuthOptions).toPromise();
   }
 
-  loginUser(u: User): Observable<any> {
+  loginUser(u: User): Promise<any> {
     const url = `${this.baseUrl}/auth`;
     const body = { username: u.username, password: u.password };
 
     // When you want to send a cookies with requests,
     // you have to put "withCredentials: true" into request option
-    return this.http.post(url, body, this.noAuthOptions);
+    return this.http.post(url, body, this.noAuthOptions).toPromise();
   }
 
   refreshToken(): Observable<any> {
