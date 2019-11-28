@@ -100,6 +100,7 @@ export class HomePage {
   getCalendar() {
     this.dataService.getCalendar().subscribe(res => {
       const calendar: any = res;
+
       this.names = calendar;
     });
   }

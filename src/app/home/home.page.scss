@@ -12,6 +12,7 @@
 
 #topIcons {
   color: #ffffff;
+  font-size: 25px;
 }
 
 #user {
@@ -24,7 +25,7 @@
   margin-right: 5px;
 }
 
-#row {
+.row {
   justify-content: center;
   display: flex;
 }
@@ -81,16 +82,29 @@
   padding-right: 0px;
 }
 
-// #day {
-//   font-weight: 400;
-//   font-size: 48px;
-//   margin-top: 5px;
-//   text-align: left;
-// }
+#day {
+  font-weight: 400;
+  font-size: 50px;
+  margin-top: 5px;
+}
 
-// #month {
-//   font-weight: lighter;
-//   font-size: 48px;
-//   margin-top: 5px;
-//   text-align: left;
-// }
+#month {
+  font-weight: lighter;
+  font-size: 50px;
+  margin-top: 5px;
+}
+
+#date {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+#holName {
+  margin: 0px;
+}
+
+.calendarIcons {
+  position: relative;
+  top: 2px;
+  right: 3px;
+}
