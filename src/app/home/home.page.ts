@@ -10,13 +10,13 @@ import {
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { DataService } from "../services/data.service";
 import { DateTimeService } from "../services/datetime.service";
-import { fade } from "../animations/fade";
+import { fade, textFade } from "../animations/animations";
 
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
   styleUrls: ["home.page.scss"],
-  animations: [fade]
+  animations: [fade, textFade]
 })
 export class HomePage {
   icon: string;
@@ -33,7 +33,11 @@ export class HomePage {
   month: string;
   year: number;
   names: Array<any> = [];
+  articles: Array<any> = [];
   weather: boolean = false;
+  news: boolean = false;
+  count: number = 0;
+  loading: any;
 
   constructor(
     public router: Router,
@@ -47,14 +51,26 @@ export class HomePage {
   ) {}
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  async loadData() {
+    this.loading = await this.loadingController.create({
+      message: "Loading data ...",
+      spinner: "bubbles"
+    });
+
+    await this.loading.present();
+
     this.day = this.dateTimeService.getDate();
     this.month = this.dateTimeService.getMonth();
 
-    this.getCalendar();
-    this.getLocation();
+    await this.getCalendar();
+    await this.getNews();
+    await this.getLocation();
   }
 
-  getLocation() {
+  async getLocation() {
     this.geolocation
       .getCurrentPosition()
       .then(resp => {
@@ -63,29 +79,41 @@ export class HomePage {
 
         this.getWeather();
       })
-      .catch(err => {
+      .catch(async err => {
+        await this.loading.dismiss();
         this.presentAlert("Error", "To view the weather, enable the location.");
       });
   }
 
   async getWeather() {
-    const loading = await this.loadingController.create({
-      message: "Loading data ...",
-      spinner: "bubbles"
-    });
-
-    await loading.present();
-
     this.dataService
       .getWeather(this.lat, this.lon)
-      .then(res => {
+      .then(async res => {
         this.setWeather(res);
         this.weather = true;
-        loading.dismiss();
       })
-      .catch(() => {
+      .catch(async () => {
+        await this.loading.dismiss();
         this.presentAlert("Error", "Network error, couldn't load weather");
-        loading.dismiss();
+      });
+  }
+
+  async getNews() {
+    this.dataService
+      .getNews()
+      .then(async data => {
+        if (!data) {
+          this.presentAlert("Error", "Network error, couldn't load news");
+          return await this.loading.dismiss();
+        }
+
+        this.articles = data.articles;
+        this.news = true;
+        await this.loading.dismiss();
+      })
+      .catch(async err => {
+        await this.loading.dismiss();
+        this.presentAlert("Error", "Network error, couldn't load news");
       });
   }
 
@@ -152,5 +180,8 @@ export class HomePage {
     );
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.articles = null;
+    this.names = null;
+  }
 }

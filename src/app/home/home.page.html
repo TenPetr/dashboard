@@ -10,7 +10,7 @@
   <ion-row class="row">
     <p id="date"><span id="day">{{ day }}</span><span id="month">{{ month }}</span></p>
   </ion-row>
-  <ion-row class="row" *ngFor="let n of names">
+  <ion-row class="row" *ngFor="let n of names" @textFade>
     <p id="holName">
       <ion-icon class="calendarIcons" name="calendar"></ion-icon>
       <span>{{ n.name }}</span>
@@ -19,9 +19,15 @@
 </ion-header>
 
 <ion-content>
+
+<!-- Weather card -->
+
   <ion-row class="row"> 
     <ion-col size-lg="5" size-xs="12" size-sm="12">
       <ion-card class="weather" *ngIf="this.lon != undefined && this.weather == true" @fade>
+        <ion-card-header id="cardHeader">
+          <h4 id="heading">Weather</h4>
+        </ion-card-header>
         <ion-card-content id="cardContent">
           <ion-row>
             <ion-col size="7">
@@ -49,4 +55,23 @@
       </ion-card>
     </ion-col>
   </ion-row>
+
+<!-- News card -->
+<ion-row class="row"> 
+  <ion-col size-lg="5" size-xs="12" size-sm="12" *ngIf="this.news == true">
+    <ion-card class="news">
+      <ion-card-header id="cardHeader">
+        <h4 id="heading">News</h4>
+      </ion-card-header>
+      <ion-card-content id="newsCardContent">
+        <ion-row *ngFor="let a of articles" @textFade>
+          <h4 class="newsTitle">{{ a.title }}</h4>
+          <p class="newsDesc">{{ a.description }} <a id="more" target="_blank" href="{{ a.url }}">More</a></p>
+          <p class="publishedAt"><ion-icon class="newsIcons" name="paper"></ion-icon>{{ a.publishedAt | date : 'HH:mm' }}, {{ a.publishedAt | date }}</p>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>
+
 </ion-content>

@@ -30,6 +30,12 @@ export class DataService {
     return this.http.get(url, this.options).toPromise();
   }
 
+  getNews(): Promise<any> {
+    const url = `${this.baseUrl}/news`;
+
+    return this.http.get(url, this.options).toPromise();
+  }
+
   getMe(): Promise<any> {
     const url = `${this.baseUrl}/me`;
 

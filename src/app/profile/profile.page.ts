@@ -6,11 +6,13 @@ import {
   AlertController
 } from "@ionic/angular";
 import { Router } from "@angular/router";
+import { textFade } from "../animations/animations";
 
 @Component({
   selector: "app-profile",
   templateUrl: "./profile.page.html",
-  styleUrls: ["./profile.page.scss"]
+  styleUrls: ["./profile.page.scss"],
+  animations: [textFade]
 })
 export class ProfilePage {
   email: string;

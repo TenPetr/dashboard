@@ -2,6 +2,13 @@
   padding: 0px 0px 10px 5px;
   margin-top: 15px;
   border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.news {
+  padding: 0px 0px 10px 5px;
+  border-radius: 10px;
+  margin-top: 0px;
 }
 
 #header {
@@ -107,4 +114,46 @@
   position: relative;
   top: 2px;
   right: 3px;
+}
+
+#heading {
+  text-align: center;
+  font-size: 17px;
+}
+
+#cardHeader {
+  padding: 10px 8px 0px 8px;
+}
+
+.newsTitle {
+  font-weight: 500;
+  font-size: 17px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.newsDesc {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+#newsCardContent {
+  padding: 12px;
+}
+
+.publishedAt {
+  font-size: 13px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+#more {
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.newsIcons {
+  position: relative;
+  top: 2px;
+  right: 4px;
 }
