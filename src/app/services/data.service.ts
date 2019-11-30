@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
   providedIn: "root"
 })
 export class DataService {
-  private readonly baseUrl = "https://dshboard-b.herokuapp.com/";
+  private readonly baseUrl = "https://dshboard-b.herokuapp.com";
 
   // Headers
   private readonly contentType = { "Content-Type": "application/json" };
