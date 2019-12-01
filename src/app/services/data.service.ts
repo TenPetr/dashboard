@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -8,7 +7,6 @@ import { Observable } from "rxjs";
 export class DataService {
   private readonly baseUrl = "http://localhost:3000";
 
-  // Headers
   private readonly contentType = { "Content-Type": "application/json" };
 
   private readonly header = new HttpHeaders(this.contentType);
