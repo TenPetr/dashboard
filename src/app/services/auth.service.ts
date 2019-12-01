@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   providedIn: "root"
 })
 export class AuthService {
-  private readonly baseUrl = "https://dshboard-b.herokuapp.com";
+  private readonly baseUrl = "http://localhost:3000";
   private readonly contentType = { "Content-Type": "application/json" };
   private readonly noAuth = { "No-Auth": "True" };
 
