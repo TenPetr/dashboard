@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
   providedIn: "root"
 })
 export class DataService {
-  private readonly baseUrl = "http://localhost:3000";
+  private readonly baseUrl = "https://dshboard-b.herokuapp.com";
 
   private readonly contentType = { "Content-Type": "application/json" };
 
