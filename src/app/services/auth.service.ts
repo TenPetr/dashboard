@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { User } from "../helpers/user.model";
 import { Observable } from "rxjs";
 
@@ -45,8 +45,12 @@ export class AuthService {
 
   refreshToken(): Observable<any> {
     const url = `${this.baseUrl}/token`;
+    const params = new HttpParams().set(
+      "username",
+      localStorage.getItem("username")
+    );
 
-    return this.http.get(url, this.options);
+    return this.http.get(url, { params: params, ...this.options });
   }
 
   logout(): Observable<any> {
