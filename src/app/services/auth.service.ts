@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { User } from "../helpers/user.model";
 import { Observable } from "rxjs";
 
@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   providedIn: "root"
 })
 export class AuthService {
-  private readonly baseUrl = "https://dshboard-b.herokuapp.com";
+  private readonly baseUrl = "http://dshboard-b.herokuapp.com";
   private readonly contentType = { "Content-Type": "application/json" };
   private readonly noAuth = { "No-Auth": "True" };
 
@@ -45,12 +45,8 @@ export class AuthService {
 
   refreshToken(): Observable<any> {
     const url = `${this.baseUrl}/token`;
-    const params = new HttpParams().set(
-      "username",
-      localStorage.getItem("username")
-    );
 
-    return this.http.get(url, { params: params, ...this.options });
+    return this.http.get(url, this.options);
   }
 
   logout(): Observable<any> {
